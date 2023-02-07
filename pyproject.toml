@@ -5,6 +5,7 @@ authors = [
   { name="Andrei Kliatsko", email="andrey.daraschenka@gmail.com" },
 ]
 description = "A SQLAlchemy dialect for TimescaleDB"
+readme = "README.md"
 dependencies = [
     "sqlalchemy>=1.3",
     "psycopg2-binary",
