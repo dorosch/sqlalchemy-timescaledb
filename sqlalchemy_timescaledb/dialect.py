@@ -1,7 +1,5 @@
 from sqlalchemy import schema
-from sqlalchemy.dialects.postgresql.asyncpg import PGDialect_asyncpg
 from sqlalchemy.dialects.postgresql.base import PGDDLCompiler
-from sqlalchemy.dialects.postgresql.psycopg import PGDialect_psycopg
 from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect_psycopg2
 
 
@@ -34,13 +32,5 @@ class TimescaledbDialect:
     ]
 
 
-class TimescaledbAsyncpgDialect(PGDialect_asyncpg, TimescaledbDialect):
-    driver = 'asyncpg'
-
-
-class TimescaledbPsycopgDialect(PGDialect_psycopg, TimescaledbDialect):
-    driver = 'psycopg'
-
-
-class TimescaledbPsycopg2Dialect(PGDialect_psycopg2, TimescaledbDialect):
+class TimescaledbPsycopg2Dialect(TimescaledbDialect, PGDialect_psycopg2):
     driver = 'psycopg2'

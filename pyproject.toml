@@ -20,10 +20,8 @@ test = [
 "Homepage" = "https://github.com/dorosch/sqlalchemy-timescaledb"
 
 [project.entry-points."sqlalchemy.dialects"]
-timescaledb.asyncpg = "sqlalchemy_timescaledb.dialect:TimescaledbAsyncpgDialect"
-timescaledb.psycopg = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopgDialect"
-timescaledb.psycopg2 = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
+timescaledb = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
