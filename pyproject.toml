@@ -1,0 +1,14 @@
+[project]
+name = "sqlalchemy-timescaledb"
+version = "0.0.1"
+authors = [
+  { name="Andrei Kliatsko", email="andrey.daraschenka@gmail.com" },
+]
+description = "Integration of timescaledb in sqlalchemy"
+
+[project.urls]
+"Homepage" = "https://github.com/dorosch/sqlalchemy-timescaledb"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
