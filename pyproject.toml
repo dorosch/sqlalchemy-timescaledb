@@ -1,6 +1,6 @@
 [project]
 name = "sqlalchemy-timescaledb"
-version = "0.1"
+version = "0.2"
 authors = [
   { name="Andrei Kliatsko", email="andrey.daraschenka@gmail.com" },
 ]
@@ -21,7 +21,10 @@ test = [
 "Homepage" = "https://github.com/dorosch/sqlalchemy-timescaledb"
 
 [project.entry-points."sqlalchemy.dialects"]
-timescaledb = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
+"timescaledb" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
+"timescaledb.psycopg" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopgDialect"
+"timescaledb.psycopg2" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
+"timescaledb.asyncpg" = "sqlalchemy_timescaledb.dialect:TimescaledbAsyncpgDialect"
 
 [build-system]
 requires = ["setuptools", "wheel"]

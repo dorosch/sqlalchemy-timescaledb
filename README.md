@@ -8,7 +8,7 @@ This is the TimescaleDB dialect driver for SQLAlchemy.
 ## Install
 
 ```bash
-$ pip install sqlalchemy_timescaledb
+$ pip install sqlalchemy-timescaledb
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ import datetime
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Table, Column, Integer, String, DateTime
 
-engine = create_engine('timescaledb://user:password@0.0.0.0:8001/database')
+engine = create_engine('timescaledb://user:password@host:port/database')
 metadata = MetaData()
 metadata.bind = engine
 
@@ -37,7 +37,7 @@ Metric = Table(
 metadata.create_all(engine)
 ```
 
-Currently only `psycopg2` driver is supported.
+Drivers `psycopg`, `psycopg2` and `asyncpg` are supported.
 
 [1]: https://badge.fury.io/py/sqlalchemy-timescaledb
 [2]: https://pepy.tech/project/sqlalchemy-timescaledb
