@@ -37,7 +37,7 @@ Metric = Table(
 metadata.create_all(engine)
 ```
 
-Drivers `psycopg`, `psycopg2` and `asyncpg` are supported.
+Drivers `psycopg2` and `asyncpg` are supported.
 
 [1]: https://badge.fury.io/py/sqlalchemy-timescaledb
 [2]: https://pepy.tech/project/sqlalchemy-timescaledb

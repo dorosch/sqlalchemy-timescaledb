@@ -13,7 +13,7 @@ dependencies = [
 [project.optional-dependencies]
 test = [
     "pytest==7.2.1",
-    "pytest-cov==4.0.0",
+    "pytest-cov==4.0.0"
 ]
 
 [project.urls]
@@ -21,7 +21,6 @@ test = [
 
 [project.entry-points."sqlalchemy.dialects"]
 "timescaledb" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
-"timescaledb.psycopg" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopgDialect"
 "timescaledb.psycopg2" = "sqlalchemy_timescaledb.dialect:TimescaledbPsycopg2Dialect"
 "timescaledb.asyncpg" = "sqlalchemy_timescaledb.dialect:TimescaledbAsyncpgDialect"
 
