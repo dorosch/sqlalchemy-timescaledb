@@ -1,3 +1,5 @@
+import os
+
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.dialects import registry
@@ -26,11 +28,11 @@ def engine(
 ):
     return create_engine(
         URL.create(
-            host=host,
-            port=port,
-            username=user,
-            password=password,
-            database=database,
+            host=os.environ.get('POSTGRES_HOST', host),
+            port=os.environ.get('POSTGRES_PORT', port),
+            username=os.environ.get('POSTGRES_USER', user),
+            password=os.environ.get('POSTGRES_PASSWORD', password),
+            database=os.environ.get('POSTGRES_DB', database),
             drivername=driver
         )
     )
