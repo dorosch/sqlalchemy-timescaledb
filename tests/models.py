@@ -8,11 +8,13 @@ Base = declarative_base()
 
 class Metric(Base):
     __tablename__ = 'metrics'
-    __table_args__ = {
-        'timescaledb_hypertable': {
-            'time_column_name': 'timestamp'
+    __table_args__ = (
+        {
+            'timescaledb_hypertable': {
+                'time_column_name': 'timestamp'
+            }
         }
-    }
+    )
 
     id = Column(Integer, primary_key=True , autoincrement=True)
     name = Column(String)
@@ -20,3 +22,10 @@ class Metric(Base):
     timestamp = Column(
         DateTime(), default=datetime.datetime.now, primary_key=True
     )
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String)

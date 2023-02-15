@@ -1,14 +1,9 @@
-from sqlalchemy import text
-
-from tests.models import Metric
+from tests.models import Metric, User
 
 
 class TestHypertable:
-    def test_is_it_hypertable(self, session):
-        assert session.execute(text(
-            f"""
-            SELECT count(*)
-            FROM _timescaledb_catalog.hypertable
-            WHERE table_name = '{Metric.__tablename__}'
-            """
-        )).scalar_one()
+    def test_is_hypertable(self, is_hypertable):
+        assert is_hypertable(Metric)
+
+    def test_is_not_hypertable(self, is_hypertable):
+        assert not is_hypertable(User)

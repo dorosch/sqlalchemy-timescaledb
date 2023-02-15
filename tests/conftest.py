@@ -1,7 +1,7 @@
 import os
 
 import pytest
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from sqlalchemy.dialects import registry
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import sessionmaker
@@ -47,3 +47,19 @@ def session(engine):
     db_session.rollback()
     db_session.close()
     Base.metadata.drop_all(bind=engine)
+
+
+@pytest.fixture
+def is_hypertable(session):
+    def check_hypertable(table):
+        return session.execute(
+            text(
+                f"""
+                SELECT count(*)
+                FROM _timescaledb_catalog.hypertable
+                WHERE table_name = '{table.__tablename__}'
+                """
+            )
+        ).scalar_one() == 1
+
+    return check_hypertable
