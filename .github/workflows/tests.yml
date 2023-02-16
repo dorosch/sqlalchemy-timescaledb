@@ -35,4 +35,4 @@ jobs:
             pip install ".[test]"
 
       - name: Run tests
-        run: pytest
+        run: pytest --cov=sqlalchemy_timescaledb -v
