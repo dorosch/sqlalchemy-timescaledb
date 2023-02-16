@@ -1,51 +1,24 @@
-import os
-
 import pytest
-from sqlalchemy import create_engine, text
-from sqlalchemy.dialects import registry
-from sqlalchemy.engine import URL
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy import text
+from pytest_factoryboy import register
 
-from tests.models import Base
+from tests.models import engine, Session, Base
+from tests.factories import MetricFactory
 
-
-registry.register(
-    'timescaledb',
-    'sqlalchemy_timescaledb.dialect',
-    'TimescaledbPsycopg2Dialect'
-)
-registry.register(
-    'timescaledb.psycopg2',
-    'sqlalchemy_timescaledb.dialect',
-    'TimescaledbPsycopg2Dialect'
-)
-registry.register(
-    'timescaledb.asyncpg',
-    'sqlalchemy_timescaledb.dialect',
-    'TimescaledbAsyncpgDialect'
-)
-
-engine = create_engine(
-    URL.create(
-        host=os.environ.get('POSTGRES_HOST', '0.0.0.0'),
-        port=os.environ.get('POSTGRES_PORT', 5432),
-        username=os.environ.get('POSTGRES_USER', 'user'),
-        password=os.environ.get('POSTGRES_PASSWORD', 'password'),
-        database=os.environ.get('POSTGRES_DB', 'database'),
-        drivername=os.environ.get('DRIVERNAME', 'timescaledb')
-    )
-)
-Session = scoped_session(sessionmaker(bind=engine))
+register(MetricFactory)
 
 
-def pytest_configure(config):
-    Base.metadata.drop_all(bind=engine)
+@pytest.fixture(autouse=True)
+def setup():
     Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture
 def session():
     yield Session
+    Session.close()
 
 
 @pytest.fixture
