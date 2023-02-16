@@ -13,7 +13,7 @@ services:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
     ports:
-      - 8001:5432
+      - 5432:5432
     volumes:
       - database:/var/lib/postgresql/data
 

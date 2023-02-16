@@ -36,5 +36,3 @@ jobs:
 
       - name: Run tests
         run: pytest
-        env:
-          POSTGRES_PORT: 5432
