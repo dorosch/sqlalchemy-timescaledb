@@ -34,5 +34,9 @@ jobs:
             python -m pip install --upgrade pip
             pip install ".[test]"
 
-      - name: Run tests
-        run: pytest --cov=sqlalchemy_timescaledb -v
+      - name: Build coverage file
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=sqlalchemy_timescaledb
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
