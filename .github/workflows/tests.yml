@@ -1,0 +1,42 @@
+name: Tests
+on: push
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+
+    services:
+      database:
+        image: timescale/timescaledb:latest-pg14
+        env:
+          POSTGRES_DB: database
+          POSTGRES_HOST: database
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v3
+
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip
+            pip install ".[test]"
+
+      - name: Build coverage file
+        run: |
+          pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=sqlalchemy_timescaledb
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3

@@ -1,0 +1,22 @@
+version: "3"
+
+
+services:
+  database:
+    image: timescale/timescaledb:latest-pg14
+    hostname: $${POSTGRES_HOST}
+    container_name: postgresql
+    environment:
+      - POSTGRES_DB=database
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
+    volumes:
+      - database:/var/lib/postgresql/data
+
+
+volumes:
+  database:
