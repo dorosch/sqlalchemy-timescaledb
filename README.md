@@ -2,7 +2,8 @@
 
 [![PyPI version](https://badge.fury.io/py/sqlalchemy-timescaledb.svg)][1]
 [![Tests](https://github.com/dorosch/sqlalchemy-timescaledb/actions/workflows/tests.yml/badge.svg)][2]
-[![Downloads](https://pepy.tech/badge/sqlalchemy-timescaledb)][3]
+[![codecov](https://codecov.io/gh/dorosch/sqlalchemy-timescaledb/branch/develop/graph/badge.svg?token=Gzh7KpADjZ)][3]
+[![Downloads](https://pepy.tech/badge/sqlalchemy-timescaledb)][4]
 
 This is the TimescaleDB dialect driver for SQLAlchemy.
 
@@ -14,7 +15,7 @@ $ pip install sqlalchemy-timescaledb
 
 ## Usage
 
-Adding to table `timescaledb_hypertable` option allows you to configure the [hypertable parameters][4]:
+Adding to table `timescaledb_hypertable` option allows you to configure the [hypertable parameters][5]:
 
 ```Python
 import datetime
@@ -42,5 +43,6 @@ Drivers `psycopg2` and `asyncpg` are supported.
 
 [1]: https://badge.fury.io/py/sqlalchemy-timescaledb
 [2]: https://github.com/dorosch/sqlalchemy-timescaledb/actions/workflows/tests.yml
-[3]: https://pepy.tech/project/sqlalchemy-timescaledb
-[4]: https://docs.timescale.com/api/latest/hypertable/create_hypertable/#optional-arguments
+[3]: https://codecov.io/gh/dorosch/sqlalchemy-timescaledb
+[4]: https://pepy.tech/project/sqlalchemy-timescaledb
+[5]: https://docs.timescale.com/api/latest/hypertable/create_hypertable/#optional-arguments
