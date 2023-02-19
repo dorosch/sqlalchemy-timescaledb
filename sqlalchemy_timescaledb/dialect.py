@@ -3,6 +3,16 @@ from sqlalchemy.dialects.postgresql.asyncpg import PGDialect_asyncpg
 from sqlalchemy.dialects.postgresql.base import PGDDLCompiler
 from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect_psycopg2
 
+try:
+    import alembic
+except ImportError:
+    pass
+else:
+    from alembic.ddl import postgresql
+
+    class TimescaledbImpl(postgresql.PostgresqlImpl):
+        __dialect__ = 'timescaledb'
+
 
 class TimescaledbDDLCompiler(PGDDLCompiler):
     def post_create_table(self, table):

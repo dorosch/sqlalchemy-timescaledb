@@ -35,6 +35,7 @@ jobs:
             pip install ".[test]"
 
       - name: Build coverage file
+        working-directory: ./tests
         run: |
           pytest --junitxml=pytest.xml --cov-report=term-missing:skip-covered --cov=sqlalchemy_timescaledb
 
