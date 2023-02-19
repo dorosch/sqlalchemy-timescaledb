@@ -45,4 +45,4 @@ docs/_build/
 .idea/
 
 # Alembic
-tests/migrations/versions/
+tests/migrations/versions/*

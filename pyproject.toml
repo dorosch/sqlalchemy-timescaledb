@@ -1,6 +1,6 @@
 [project]
 name = "sqlalchemy-timescaledb"
-version = "0.3"
+version = "0.3.1"
 authors = [
   { name="Andrei Kliatsko", email="andrey.daraschenka@gmail.com" },
 ]
