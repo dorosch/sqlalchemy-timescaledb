@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 
 from sqlalchemy import select
-from sqlalchemy_timescaledb.functions import First, Last
 
+from sqlalchemy_timescaledb.functions import First, Last
 from tests.models import Metric
 
 
