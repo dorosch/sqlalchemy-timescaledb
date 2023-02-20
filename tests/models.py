@@ -2,12 +2,10 @@ import datetime
 import os
 
 from sqlalchemy import Column, String, DateTime, Float, Integer
-from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker, scoped_session
 
-database_url = URL.create(
+DATABASE_URL = URL.create(
     host=os.environ.get('POSTGRES_HOST', '0.0.0.0'),
     port=os.environ.get('POSTGRES_PORT', 5432),
     username=os.environ.get('POSTGRES_USER', 'user'),
@@ -15,8 +13,7 @@ database_url = URL.create(
     database=os.environ.get('POSTGRES_DB', 'database'),
     drivername=os.environ.get('DRIVERNAME', 'timescaledb')
 )
-engine = create_engine(database_url)
-Session = scoped_session(sessionmaker(bind=engine))
+
 Base = declarative_base()
 
 

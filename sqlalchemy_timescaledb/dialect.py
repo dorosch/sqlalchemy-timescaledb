@@ -1,4 +1,4 @@
-from sqlalchemy import schema
+from sqlalchemy import schema, event, DDL
 from sqlalchemy.dialects.postgresql.asyncpg import PGDialect_asyncpg
 from sqlalchemy.dialects.postgresql.base import PGDDLCompiler
 from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect_psycopg2
@@ -19,14 +19,29 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
         hypertable = table.kwargs.get('timescaledb_hypertable', {})
 
         if hypertable:
-            hypertable_sql = \
-                ';\n\nSELECT create_hypertable(' \
-                f"'{table.name}', '{hypertable['time_column_name']}'" \
-                ");"
-
-            return super().post_create_table(table) + hypertable_sql
+            event.listen(
+                table,
+                'after_create',
+                self.ddl_hypertable(
+                    table.name, hypertable
+                ).execute_if(
+                    dialect='timescaledb'
+                )
+            )
 
         return super().post_create_table(table)
+
+    @staticmethod
+    def ddl_hypertable(table_name, hypertable):
+        return DDL(
+            f"""
+            SELECT create_hypertable(
+                '{table_name}',
+                '{hypertable['time_column_name']}',
+                if_not_exists => TRUE
+            );
+            """
+        )
 
 
 class TimescaledbDialect:
