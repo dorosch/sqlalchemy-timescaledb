@@ -1,24 +1,26 @@
 import pytest
-from sqlalchemy import text
-from pytest_factoryboy import register
+from sqlalchemy import text, create_engine
+from sqlalchemy.orm import Session
 
-from tests.models import engine, Session, Base
-from tests.factories import MetricFactory
-
-register(MetricFactory)
-
-
-@pytest.fixture(autouse=True)
-def setup():
-    Base.metadata.create_all(bind=engine)
-    yield
-    Base.metadata.drop_all(bind=engine)
+from tests.models import Base, DATABASE_URL
 
 
 @pytest.fixture
-def session():
-    yield Session
-    Session.close()
+def engine():
+    yield create_engine(DATABASE_URL)
+
+
+@pytest.fixture
+def session(engine):
+    with Session(engine) as session:
+        yield session
+
+
+@pytest.fixture(autouse=True)
+def setup(engine):
+    Base.metadata.create_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture
