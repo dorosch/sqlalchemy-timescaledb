@@ -13,12 +13,12 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from models import Base #, database_url, Metric, User
+from models import Base, DATABASE_URL
+
 config.set_section_option(
     config.config_ini_section,
     "sqlalchemy.url",
-    # database_url.render_as_string(hide_password=False)
-    'timescaledb://user:password@0.0.0.0:5432/database'
+    DATABASE_URL.render_as_string(hide_password=False)
 )
 
 target_metadata = Base.metadata
