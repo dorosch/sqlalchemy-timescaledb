@@ -1,8 +1,12 @@
 import pytest
+from pytest_factoryboy import register
 from sqlalchemy import text, create_engine
 from sqlalchemy.orm import Session
 
+from tests.factories import MetricFactory, FactorySession
 from tests.models import Base, DATABASE_URL
+
+register(MetricFactory)
 
 
 @pytest.fixture
@@ -18,6 +22,7 @@ def session(engine):
 
 @pytest.fixture(autouse=True)
 def setup(engine):
+    FactorySession.configure(bind=engine)
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
