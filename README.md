@@ -39,6 +39,30 @@ Metric = Table(
 metadata.create_all(engine)
 ```
 
+Or using `declarative_base` style:
+
+```Python
+import datetime
+
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Float, String, DateTime
+
+Base = declarative_base()
+
+class Metric(Base):
+    __table_args__ = ({
+        'timescaledb_hypertable': {
+            'time_column_name': 'timestamp'
+        }
+    })
+
+    name = Column(String)
+    value = Column(Float)
+    timestamp = Column(
+        DateTime(), default=datetime.datetime.now, primary_key=True
+    )
+```
+
 ## Functions
 
 Timescaledb functions implemented:
