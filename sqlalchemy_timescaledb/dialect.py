@@ -33,11 +33,21 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
 
     @staticmethod
     def ddl_hypertable(table_name, hypertable):
+        time_column_name = hypertable['time_column_name']
+        chunk_time_interval = hypertable.get('chunk_time_interval', '7 days')
+
+        if isinstance(chunk_time_interval, str):
+            if chunk_time_interval.isdigit():
+                chunk_time_interval = int(chunk_time_interval)
+            else:
+                chunk_time_interval = f"INTERVAL '{chunk_time_interval}'"
+
         return DDL(
             f"""
             SELECT create_hypertable(
                 '{table_name}',
-                '{hypertable['time_column_name']}',
+                '{time_column_name}',
+                chunk_time_interval => {chunk_time_interval},
                 if_not_exists => TRUE
             );
             """

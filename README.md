@@ -63,17 +63,21 @@ class Metric(Base):
     )
 ```
 
+## Parameters
+
+* [chunk_time_interval](6)
+
 ## Functions
 
 Timescaledb functions implemented:
 
-### [first(value, time)][6]
+### [first(value, time)][7]
 
 ```Python
 func.first(Metric.value, Metric.timestamp)
 ```
 
-### [last(value, time)][7]
+### [last(value, time)][8]
 
 ```Python
 func.last(Metric.value, Metric.timestamp)
@@ -85,5 +89,6 @@ func.last(Metric.value, Metric.timestamp)
 [3]: https://codecov.io/gh/dorosch/sqlalchemy-timescaledb
 [4]: https://pepy.tech/project/sqlalchemy-timescaledb
 [5]: https://docs.timescale.com/api/latest/hypertable/create_hypertable/#optional-arguments
-[6]: https://docs.timescale.com/api/latest/hyperfunctions/first/
-[7]: https://docs.timescale.com/api/latest/hyperfunctions/last/
+[6]: https://docs.timescale.com/api/latest/hypertable/set_chunk_time_interval/
+[7]: https://docs.timescale.com/api/latest/hyperfunctions/first/
+[8]: https://docs.timescale.com/api/latest/hyperfunctions/last/
