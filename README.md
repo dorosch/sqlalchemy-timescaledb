@@ -65,7 +65,7 @@ class Metric(Base):
 
 ## Parameters
 
-* [chunk_time_interval](6)
+* [chunk_time_interval][6]
 
 ## Functions
 
