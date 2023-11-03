@@ -1,3 +1,5 @@
+import textwrap
+
 from sqlalchemy import schema, event, DDL
 from sqlalchemy.dialects.postgresql.asyncpg import PGDialect_asyncpg
 from sqlalchemy.dialects.postgresql.base import PGDDLCompiler
@@ -42,16 +44,14 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
             else:
                 chunk_time_interval = f"INTERVAL '{chunk_time_interval}'"
 
-        return DDL(
-            f"""
+        return DDL(textwrap.dedent(f"""
             SELECT create_hypertable(
                 '{table_name}',
                 '{time_column_name}',
                 chunk_time_interval => {chunk_time_interval},
                 if_not_exists => TRUE
             );
-            """
-        )
+            """))
 
 
 class TimescaledbDialect:
