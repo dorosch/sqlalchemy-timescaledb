@@ -25,7 +25,7 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
                 table,
                 'after_create',
                 self.ddl_hypertable(
-                    table.name, hypertable
+                    self.dialect, table, hypertable
                 ).execute_if(
                     dialect='timescaledb'
                 )
@@ -34,8 +34,7 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
         return super().post_create_table(table)
 
     @staticmethod
-    def ddl_hypertable(table_name, hypertable):
-        time_column_name = hypertable['time_column_name']
+    def ddl_hypertable(dialect, table, hypertable):
         chunk_time_interval = hypertable.get('chunk_time_interval', '7 days')
 
         if isinstance(chunk_time_interval, str):
@@ -44,10 +43,12 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
             else:
                 chunk_time_interval = f"INTERVAL '{chunk_time_interval}'"
 
+        table_name = dialect.identifier_preparer.format_table(table)
+        time_column_name = dialect.identifier_preparer.format_column(table.columns[hypertable['time_column_name']])
         return DDL(textwrap.dedent(f"""
             SELECT create_hypertable(
-                '{table_name}',
-                '{time_column_name}',
+                {table_name},
+                {time_column_name},
                 chunk_time_interval => {chunk_time_interval},
                 if_not_exists => TRUE
             );
