@@ -53,7 +53,7 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
                 {time_column_name},
                 chunk_time_interval => {chunk_time_interval},
                 if_not_exists => TRUE
-            );
+            )
             """))
 
 
