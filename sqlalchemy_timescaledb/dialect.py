@@ -19,6 +19,7 @@ else:
 class TimescaledbDDLCompiler(PGDDLCompiler):
     def post_create_table(self, table):
         hypertable = table.kwargs.get('timescaledb_hypertable', {})
+        compress = table.kwargs.get('timescaledb_compress', {})
 
         if hypertable:
             event.listen(
@@ -30,6 +31,27 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
                     dialect='timescaledb'
                 )
             )
+
+        if compress:
+            event.listen(
+                table,
+                'after_create',
+                self.ddl_compress(
+                    table.name, compress
+                ).execute_if(
+                    dialect='timescaledb'
+                )
+            )
+            event.listen(
+                table,
+                'after_create',
+                self.ddl_compression_policy(
+                    table.name, compress
+                ).execute_if(
+                    dialect='timescaledb'
+                )
+            )
+
 
         return super().post_create_table(table)
 
@@ -53,6 +75,22 @@ class TimescaledbDDLCompiler(PGDDLCompiler):
             )
             """))
 
+    @staticmethod
+    def ddl_compress(table_name, compress):
+        segmentby = compress['compress_segmentby']
+
+        return DDL(textwrap.dedent(f"""
+            ALTER TABLE {table_name} SET (timescaledb.compress, timescaledb.compress_segmentby = '{segmentby}')
+            """))
+
+    @staticmethod
+    def ddl_compression_policy(table_name, compress):
+        compression_policy_interval = compress.get('compression_policy_interval', '7 days')
+
+        return DDL(textwrap.dedent(f"""
+            SELECT add_compression_policy('{table_name}', INTERVAL '{compression_policy_interval}')
+            """))
+
 
 class TimescaledbDialect:
     name = 'timescaledb'
@@ -60,7 +98,8 @@ class TimescaledbDialect:
     construct_arguments = [
         (
             schema.Table, {
-                "hypertable": {}
+                "hypertable": {},
+                "compress": {}
             }
         )
     ]
