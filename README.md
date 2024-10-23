@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/dorosch/sqlalchemy-timescaledb/branch/develop/graph/badge.svg?token=Gzh7KpADjZ)][3]
 [![Downloads](https://pepy.tech/badge/sqlalchemy-timescaledb)][4]
 
-This is the TimescaleDB dialect driver for SQLAlchemy. Drivers `psycopg2` and `asyncpg` are supported.
+This is the TimescaleDB dialect driver for SQLAlchemy. Drivers `psycopg2`, `psycopg` and `asyncpg` are supported.
 
 ## Install
 
@@ -22,6 +22,7 @@ import datetime
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy import Table, Column, Integer, String, DateTime
 
+# or use timescaledb+psycopg/asyncpg
 engine = create_engine('timescaledb://user:password@host:port/database')
 metadata = MetaData()
 metadata.bind = engine

@@ -2,6 +2,7 @@ from sqlalchemy import schema, event, DDL
 from sqlalchemy.dialects.postgresql.asyncpg import PGDialect_asyncpg
 from sqlalchemy.dialects.postgresql.base import PGDDLCompiler
 from sqlalchemy.dialects.postgresql.psycopg2 import PGDialect_psycopg2
+from sqlalchemy.dialects.postgresql.psycopg import PGDialect_psycopg
 
 try:
     import alembic
@@ -73,4 +74,9 @@ class TimescaledbPsycopg2Dialect(TimescaledbDialect, PGDialect_psycopg2):
 
 class TimescaledbAsyncpgDialect(TimescaledbDialect, PGDialect_asyncpg):
     driver = 'asyncpg'
+    supports_statement_cache = True
+
+
+class TimescaledbPsycopgDialect(TimescaledbDialect, PGDialect_psycopg):
+    driver = 'psycopg'
     supports_statement_cache = True
