@@ -11,7 +11,7 @@ register(MetricFactory)
 
 @pytest.fixture
 def engine():
-    yield create_engine(DATABASE_URL)
+    yield create_engine(DATABASE_URL, echo=True)
 
 
 @pytest.fixture
@@ -20,9 +20,13 @@ def session(engine):
         yield session
 
 
+_factory_session = None
+
 @pytest.fixture(autouse=True)
 def setup(engine):
-    FactorySession.configure(bind=engine)
+    global _factory_session
+    if _factory_session is None:
+        _factory_session = FactorySession.configure(bind=engine)
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)

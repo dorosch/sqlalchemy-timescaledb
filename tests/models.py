@@ -6,11 +6,11 @@ from sqlalchemy.engine import URL
 from sqlalchemy.orm import declarative_base
 
 DATABASE_URL = URL.create(
-    host=os.environ.get('POSTGRES_HOST', '0.0.0.0'),
+    host=os.environ.get('POSTGRES_HOST', 'localhost'),
     port=os.environ.get('POSTGRES_PORT', 5432),
-    username=os.environ.get('POSTGRES_USER', 'user'),
+    username=os.environ.get('POSTGRES_USER', 'postgres'),
     password=os.environ.get('POSTGRES_PASSWORD', 'password'),
-    database=os.environ.get('POSTGRES_DB', 'database'),
+    database=os.environ.get('POSTGRES_DB', 'test_timescaledb'),
     drivername=os.environ.get('DRIVERNAME', 'timescaledb')
 )
 

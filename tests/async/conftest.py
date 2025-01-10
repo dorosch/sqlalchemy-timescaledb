@@ -7,7 +7,8 @@ from tests.models import Base, DATABASE_URL
 @pytest_asyncio.fixture
 def async_engine():
     yield create_async_engine(
-        DATABASE_URL.set(drivername='timescaledb+asyncpg')
+        DATABASE_URL.set(drivername='timescaledb+asyncpg'),
+		echo=True
     )
 
 

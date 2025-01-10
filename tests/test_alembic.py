@@ -16,6 +16,7 @@ class TestAlembic:
         self.migration_versions_path = os.path.join(
             os.path.dirname(__file__), 'migrations', 'versions'
         )
+        self.config.set_main_option("version_locations",self.migration_versions_path)
 
     def test_create_revision(self, engine):
         Base.metadata.drop_all(bind=engine)

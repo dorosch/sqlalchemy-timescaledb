@@ -27,3 +27,4 @@ class TestHypertable:
                 """
             )
         )).scalar_one()
+        #assert False
